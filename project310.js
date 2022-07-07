@@ -1,21 +1,8 @@
 /*
 Author: Ryan Woodward & Asher Shores
-Date: (start)6/5/2022
+Date: (start)6/5/2022, (edited)6/6/2022
 Description: JavaScript file for the primary project for CST-310
 File: project310.js
- */
-
-
-/* OUTLINE of Program
-vertexData = [...];
-create Buffer
-load vertexData into Buffer
-create vertex shader
-create Fragment Shader
-create program
-attach shaders to program
-enable vertex attributes
-draw
  */
 
 "use strict";
@@ -23,7 +10,7 @@ draw
 var canvas;
 var gl;
 
-const cubeVerts = [
+const cubeVerts = [ //what does this array hold exactly?
     vec4( -0.5, -0.5,  0.5, 1.0 ),
     vec4( -0.5,  0.5,  0.5, 1.0 ),
     vec4(  0.5,  0.5,  0.5, 1.0 ),
@@ -74,19 +61,23 @@ window.onload = function init()
     colorCube([-.4+tX,-0.3,0.04+tZ],[0.1,0.1,0.1]);  //back left foot
     colorCube([.4+tX,-0.3,0.04+tZ],[0.1,0.1,0.1]);    //back right foot
 
+
+
     //RUG
-    colorCube([0.4,-0.4,0.8],[0.9,0.01,0.7]);
+    colorCube([0.4,-0.35,0.8],[0.9,0.01,0.7]);
+
+    //floor
+    colorCube([0.4,-0.360,0.8],[2.5,0.013,3]);
+
+    //left wall
+    colorCube([-0.844,0.65,0.05],[0.013,2,1.5]);
+    //back wall
 
     //Window
-    colorCube([-0.4,0.5,0.5],[0.01,0.2,0.2]); //top left pane
-    colorCube([0.0,0.57,0.53],[0.01,0.2,0.2]);  //top right pane
-    colorCube([-0.4,0.293,0.5],[0.01,0.2,0.2]);   //lower left pane
-    colorCube([0.0,0.364,0.53],[0.01,0.2,0.2]);   //lower right pane
-
-
-
-
-
+   // colorCube([-0.4,0.5,0.5],[0.01,0.2,0.2]); //top left pane
+   // colorCube([-0.4,0.57,0.53],[0.01,0.2,0.2]);  //top right pane
+   // colorCube([-0.4,0.293,0.5],[0.01,0.2,0.2]);   //lower left pane
+    //colorCube([0.0,0.364,0.53],[0.01,0.2,0.2]);   //lower right pane
 
     gl.viewport( 0, 0, canvas.width, canvas.height );
     gl.clearColor( 1.0, 1.0, 1.0, 1.0 );
