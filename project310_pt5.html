@@ -1,0 +1,88 @@
+<!--****************************************************************************************
+Author: Ryan Woodward & Asher Shores
+Date:  (Start)6/11/2022
+Description: Primary project of CST-310, for this portion of the project we are adding cameras,
+        improved appearance and rendering of the shapes, and, (time permitting) meshes to further enhance the look of the scene
+File: project310_pt5.html
+Dependencies: project310_pt.js, webgl-utils.js, initShaders.js, MV.js
+*****************************************************************************************-->
+
+<!DOCTYPE html>
+<html>
+
+<p> </p>
+<button id = "Button1">Increase Z</button>
+<button id = "Button2">Decrease Z</button>
+<button id = "Button3">Increase R</button>
+<button id = "Button4">Decrease R</button>
+
+<p> </p>
+<button id = "Button5">Increase theta</button>
+<button id = "Button6">Decrease theta</button>
+<button id = "Button7">Increase phi</button>
+<button id = "Button8">Decrease phi</button>
+<p> </p>
+
+<button id = "Button9">Camera 1</button>
+<button id = "Button10">Camera 2</button>
+<button id = "Button11">Camera 3</button>
+
+<p> </p>
+<script id="vertex-shader" type="x-shader/x-vertex">
+
+attribute  vec4 vPosition;
+attribute  vec4 vColor;
+varying vec4 fColor;
+
+uniform mat4 modelView;
+uniform mat4 projection;
+
+void main()
+{
+    gl_Position = projection*modelView*vPosition;
+    fColor = vColor;
+}
+</script>
+
+<script id="vertex-shader2" type="x-shader/x-vertex">
+
+attribute  vec4 vPosition;
+attribute  vec4 vColor;
+varying vec4 fColor;
+
+uniform mat4 modelView;
+uniform mat4 projection;
+
+void main()
+{
+    gl_Position = projection*modelView*vPosition;
+    fColor = vColor;
+}
+</script>
+
+
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+
+precision mediump float;
+
+varying vec4 fColor;
+
+void main()
+{
+    gl_FragColor = fColor;
+}
+</script>
+
+<script type="text/javascript" src="../common/js/webgl-utils.js"></script>
+<script type="text/javascript" src="../common/js/initShaders.js"></script>
+<script type="text/javascript" src="../common/js/MV.js"></script>
+<script type="text/javascript" src="project310_pt5.js"></script>
+
+<body>
+<canvas id="rCanvas" style="border: solid firebrick 5px" width="1500" height="1000">
+    Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+
+</body>
+</html>
