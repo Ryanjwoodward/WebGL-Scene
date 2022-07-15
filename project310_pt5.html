@@ -11,10 +11,12 @@ Dependencies: project310_pt.js, webgl-utils.js, initShaders.js, MV.js
 <html>
 
 <p> </p>
+<!--
 <button id = "Button1">Increase Z</button>
 <button id = "Button2">Decrease Z</button>
 <button id = "Button3">Increase R</button>
 <button id = "Button4">Decrease R</button>
+-->
 
 <p> </p>
 <button id = "Button5">Increase theta</button>
@@ -28,6 +30,8 @@ Dependencies: project310_pt.js, webgl-utils.js, initShaders.js, MV.js
 <button id = "Button11">Camera 3</button>
 
 <p> </p>
+
+<!-- provide rotations matirx, and tranformation matrix-->
 <script id="vertex-shader" type="x-shader/x-vertex">
 
 attribute  vec4 vPosition;
@@ -36,6 +40,9 @@ varying vec4 fColor;
 
 uniform mat4 modelView;
 uniform mat4 projection;
+uniform vec4 lightPosition;
+
+varying vec3 N, L, E;
 
 void main()
 {
@@ -43,24 +50,6 @@ void main()
     fColor = vColor;
 }
 </script>
-
-<script id="vertex-shader2" type="x-shader/x-vertex">
-
-attribute  vec4 vPosition;
-attribute  vec4 vColor;
-varying vec4 fColor;
-
-uniform mat4 modelView;
-uniform mat4 projection;
-
-void main()
-{
-    gl_Position = projection*modelView*vPosition;
-    fColor = vColor;
-}
-</script>
-
-
 
 <script id="fragment-shader" type="x-shader/x-fragment">
 
@@ -80,7 +69,7 @@ void main()
 <script type="text/javascript" src="project310_pt5.js"></script>
 
 <body>
-<canvas id="rCanvas" style="border: solid firebrick 5px" width="1500" height="1000">
+<canvas id="rCanvas" style="border: solid firebrick 5px" width="1250" height="750">
     Oops ... your browser doesn't support the HTML5 canvas element
 </canvas>
 
