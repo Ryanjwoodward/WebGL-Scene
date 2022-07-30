@@ -16,10 +16,17 @@ attribute  vec4 vPosition;
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
 
-void main() 
+uniform float myScale;
+
+mat4 scalingMatrix = mat4(myScale, 0, 0, 0,
+                          0, myScale, 0, 0,
+                          0, 0, myScale, 0,
+                          0, 0, 0, 1);
+
+void main()
 {
-    gl_Position = projectionMatrix*modelViewMatrix*vPosition;
-} 
+    gl_Position = projectionMatrix*modelViewMatrix*vPosition * scalingMatrix;
+}
 </script>
 
 <script id="fragment-shader" type="x-shader/x-fragment">
@@ -41,9 +48,32 @@ main()
 <script type="text/javascript" src="demoScene_310.js"></script>
 
 <body>
+
+
 <canvas id="gl-canvas" style="border: solid firebrick 5px; margin: 50px 0px 0px 450px" width="1000" height="800">
     Oops ... your browser doesn't support the HTML5 canvas element
 </canvas>
+
+<br/>
+
+<div style=" margin: 0px 0px 0px 700px">
+
+    <div>
+        scale 0% <input id="slider" type="range"
+                        min="0" max="2" step="0.1" value="1" />
+        200%
+    </div>
+    <button id= "posThetaSpeed">Theta+</button>
+    <button id= "negThetaSpeed">Theta-</button>
+
+    <button id= "posPhiSpeed">Phi+</button>
+    <button id= "negPhiSpeed">Phi-</button>
+
+    <button id= "posXSpeed">X+</button>
+    <button id= "negXSpeed">X-</button>
+
+    <button id= "negYSpeed">Y+</button>
+    <button id= "posYSpeed">Y-</button>
+</div>
 </body>
 </html>
-

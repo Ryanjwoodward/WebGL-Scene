@@ -15,8 +15,20 @@ var nRows = 100;
 var nColumns = 100;
 var x, y, z;
 
+let myScale = 1;
+
+let theScale;
+
+let thetaSpeed = 0.01;
+let phiSpeed = 0.01;
+let xSpeed = 0.01;
+let ySpeed = 0.01;
+//let rSpeed = 0.01;
+
+
+
+
 var pointsArray = [];
-var newPointsArray = [];
 
 //This array/matrix thing is where the mesh is calculated, which is a giant 50 x 50 array:
 var data = new Array(nRows);
@@ -55,7 +67,7 @@ var arrayOfColors =[
     vec4(0.0,1.0,1.0,1.0), //cyan
 ];
 
-let cm = 0.02, cn = 0.02,cr = 0.01, colorCounter = 0;
+let cr = 0.01, colorCounter = 0;
 
 function createObjs() {
 
@@ -69,9 +81,9 @@ function createObjs() {
             lat = (lat * 2.0 - 1.0) * Math.PI; //Now, map [0,1] to [-PI/2, PI/2]
 
             //CRAZY DONUT
-            x = (r * Math.cos(lat) + Math.cos(lon)) / 2;
-            y = (r * Math.sin(lat) + Math.sin(lon)) /2;
-            z = r * Math.cos(lat)/2;
+            x = (r * Math.cos(lat) + Math.cos(lon));
+            y = (r * Math.sin(lat) + Math.sin(lon));
+            z = r * Math.cos(lat);
 
             pointsArray.push(vec4(x, y, z, 1.0));
         }
@@ -106,9 +118,48 @@ window.onload = function init()
     gl.enableVertexAttribArray( vPosition );
 
     fColor = gl.getUniformLocation(program, "fColor");
+    theScale = gl.getUniformLocation(program, "myScale");
 
     modelViewMatrixLoc = gl.getUniformLocation( program, "modelViewMatrix" );
     projectionMatrixLoc = gl.getUniformLocation( program, "projectionMatrix" );
+
+    //Adding listeners for buttons for each type of movement
+    //Changing theta speed
+    document.getElementById( "posThetaSpeed" ).onclick = function () {
+        thetaSpeed += 0.01;
+    };
+    document.getElementById( "negThetaSpeed" ).onclick = function () {
+        thetaSpeed -= 0.01;
+    };
+
+    //Changing Phi speed
+    document.getElementById( "posPhiSpeed" ).onclick = function () {
+        phiSpeed += 0.01;
+    };
+    document.getElementById( "negPhiSpeed" ).onclick = function () {
+        phiSpeed -= 0.01;
+    };
+
+    //changing X speed
+    document.getElementById( "posXSpeed" ).onclick = function () {
+        xSpeed += 0.01;
+    };
+    document.getElementById( "negXSpeed" ).onclick = function () {
+        xSpeed -= 0.01;
+    };
+
+    //changing Y speed
+    document.getElementById( "posYSpeed" ).onclick = function () {
+        ySpeed += 0.01;
+    };
+    document.getElementById( "negYSpeed" ).onclick = function () {
+        ySpeed -= 0.01;
+    };
+
+    document.getElementById("slider").onchange = function(event) {
+        myScale = event.target.value;
+        console.log(myScale);
+    };
 
     render();
 }
@@ -117,35 +168,37 @@ function render() {
 
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    theta += 0.01;
-   phi += 0.01;
+    theta += thetaSpeed;
+   phi += phiSpeed;
 
-    ytop += cm;
-    bottom += cm;
-    right += cn;
-    left += cn;
+    ytop += ySpeed;
+    bottom += ySpeed;
+    right += xSpeed;
+    left += xSpeed;
     radius += (cr)*2
 
     //causes part of the donut to disappear
     if(radius >= 9){
-        cr = -0.01;
+        cr *= 0.01;
     }else{
-        cr = 0.01;
+        cr *= -0.01;
     }
 
     //causes the donut to go up and down
     if(ytop > 2.8){
-        cm = -0.01;
+        ySpeed *= -1;
     }else if(ytop < 1.5){
-        cm = 0.01;
+        ySpeed *= -1;
     }
 
     //causes the donut to move left and right
     if(right > 6.8){
-        cn = -0.01;
+        xSpeed *= -1;
     }else if(right < 1.0){
-        cn = 0.01;
+        xSpeed *= -1;
     }
+
+    gl.uniform1f(theScale, myScale);
 
     rainbow = vec4(Math.sin(theta)/2+0.5, Math.sin(theta+Math.PI*2/3)/2+0.5, Math.sin(theta+Math.PI*4/3)/2+0.5, 1.0);
 
@@ -165,7 +218,7 @@ function render() {
         if(colorCounter == 5){colorCounter = 0;}
 
         gl.uniform4fv(fColor, arrayOfColors[colorCounter]);
-        gl.drawArrays( gl.TRIANGLES, i, 4 );
+        gl.drawArrays( gl.TRIANGLE_FAN, i, 4 ); //originally trianges
         gl.uniform4fv(fColor, (rainbow));
         gl.drawArrays( gl.LINE_LOOP, i, 4 );
     }
