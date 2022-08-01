@@ -198,7 +198,7 @@ function render() {
         xSpeed *= -1;
     }
 
-    gl.uniform1f(theScale, myScale);
+    gl.uniform1f(theScale, myScale/(Math.sin(phi)/2+0.6));
 
     rainbow = vec4(Math.sin(theta)/2+0.5, Math.sin(theta+Math.PI*2/3)/2+0.5, Math.sin(theta+Math.PI*4/3)/2+0.5, 1.0);
 
